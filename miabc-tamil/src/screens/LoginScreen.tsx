@@ -1,33 +1,62 @@
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ActivityIndicator } from 'react-native';
+import apiService from '../services/apiService';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Development bypass
     if (username.toLowerCase() === 'user' && password === 'password') {
       navigation.navigate('Home');
       return;
     }
 
-    // This is where you would add your backend authentication logic
+    // Validate inputs
     if (!username || !password) {
       Alert.alert('Error', 'Please enter both email/username and password.');
       return;
     }
     
-    // For demonstration, let's assume the user is not registered
-    Alert.alert(
-      'Login Failed',
-      'You are not registered. Please register to continue.',
-      [
-        { text: "OK" }
-      ]
-    );
+    setLoading(true);
+    
+    try {
+      const response = await apiService.login({
+        username: username,
+        password: password,
+      });
+      
+      // Login successful
+      Alert.alert(
+        'Success',
+        `Welcome back, ${response.learnerName || 'User'}!`,
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('Home'),
+          },
+        ]
+      );
+    } catch (error: any) {
+      // Login failed
+      const errorMessage = error.message || 'Login failed. Please check your credentials.';
+      
+      if (errorMessage.includes('Incorrect email or password')) {
+        Alert.alert(
+          'Login Failed',
+          'You are not registered or your password is incorrect. Please register to continue.',
+          [{ text: 'OK' }]
+        );
+      } else {
+        Alert.alert('Error', errorMessage);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,8 +97,16 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
+      <TouchableOpacity 
+        style={[styles.loginButton, loading && styles.loginButtonDisabled]} 
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.loginButtonText}>Login</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
@@ -146,6 +183,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  loginButtonDisabled: {
+    opacity: 0.6,
   },
   linkText: {
     color: '#888',

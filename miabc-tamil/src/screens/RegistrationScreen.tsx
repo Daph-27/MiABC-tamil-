@@ -1,8 +1,10 @@
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, ActivityIndicator } from 'react-native';
+import apiService from '../services/apiService';
 
 const RegistrationScreen = ({ navigation }) => {
+  const [learnerName, setLearnerName] = useState('');
   const [username, setUsername] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
@@ -12,9 +14,10 @@ const RegistrationScreen = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = () => {
-    if (!username || !age || !email || !guardianName || !guardianPhone || !password || !confirmPassword) {
+  const handleRegister = async () => {
+    if (!learnerName || !username || !age || !guardianName || !guardianPhone || !password || !confirmPassword) {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
@@ -22,9 +25,60 @@ const RegistrationScreen = ({ navigation }) => {
       Alert.alert('Error', 'Passwords do not match.');
       return;
     }
-    // Backend registration logic goes here
-    console.log('Registering with:', { username, age, email, guardianName, guardianPhone });
-    navigation.navigate('ProfilePicture');
+    if (password.length < 6) {
+      Alert.alert('Error', 'Password must be at least 6 characters long.');
+      return;
+    }
+    
+    setLoading(true);
+    
+    try {
+      const response = await apiService.register({
+        username: username,
+        password: password,
+        learnerName: learnerName,
+        guardianName: guardianName,
+        learnerAge: parseInt(age),
+        guardianEmail: email,
+        guardianPhone: guardianPhone,
+      });
+      
+      // Registration successful
+      Alert.alert(
+        'Success!',
+        'Your account has been created successfully.',
+        [
+          {
+            text: 'Continue',
+            onPress: () => navigation.navigate('ProfilePicture'),
+          },
+        ]
+      );
+    } catch (error: any) {
+      // Registration failed
+      const errorMessage = error.message || 'Registration failed. Please try again.';
+      
+      if (errorMessage.includes('already registered')) {
+        Alert.alert(
+          'Error',
+          'This username is already taken. Please choose another one.',
+          [
+            {
+              text: 'Go to Login',
+              onPress: () => navigation.navigate('Login'),
+            },
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ]
+        );
+      } else {
+        Alert.alert('Error', errorMessage);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,13 +87,16 @@ const RegistrationScreen = ({ navigation }) => {
       
       <Text style={styles.sectionTitle}>Learner's Information</Text>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#aaa" value={username} onChangeText={setUsername} />
+        <TextInput style={styles.input} placeholder="Learner Name" placeholderTextColor="#aaa" value={learnerName} onChangeText={setLearnerName} />
       </View>
       <View style={styles.inputContainer}>
         <TextInput style={styles.input} placeholder="Age" placeholderTextColor="#aaa" value={age} onChangeText={setAge} keyboardType="numeric" />
       </View>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Email ID" placeholderTextColor="#aaa" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
+        <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#aaa" value={username} onChangeText={setUsername} autoCapitalize="none" />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.input} placeholder="Guardian Email (optional)" placeholderTextColor="#aaa" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
       </View>
 
       <Text style={styles.sectionTitle}>Guardian's Information</Text>
@@ -63,8 +120,16 @@ const RegistrationScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-        <Text style={styles.registerButtonText}>Register</Text>
+      <TouchableOpacity 
+        style={[styles.registerButton, loading && styles.registerButtonDisabled]} 
+        onPress={handleRegister}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.registerButtonText}>Register</Text>
+        )}
       </TouchableOpacity>
     </ScrollView>
   );
@@ -114,7 +179,10 @@ const styles = StyleSheet.create({
     registerButton: {
         backgroundColor: '#ff6347',
         paddingVertical: 15,
-        paddingHorizontal: 80,
+      
+    registerButtonDisabled: {
+        opacity: 0.6,
+    },  paddingHorizontal: 80,
         borderRadius: 30,
         marginTop: 30,
     },
