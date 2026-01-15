@@ -12,29 +12,78 @@ const API_URL = 'http://10.0.2.2:8000/api/v1/content';
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - 48) / 2; // 2 columns with padding
 
-const DUMMY_QUIZ_DATA = {
-  moduleId: 'Alphabet',
-  passingScore: 80,
-  questions: [
-    {
+// Helper function to generate quiz questions from module data
+const generateQuizQuestions = (vowels: any[], consonants: any[]) => {
+  const questions: any[] = [];
+  
+  // Question 1: Identify first vowel
+  if (vowels.length > 0) {
+    const correctVowel = vowels[0];
+    const wrongOptions = vowels.slice(1, 3).concat(consonants.slice(0, 1));
+    questions.push({
       id: 'q1',
-      text: 'Which of these is the first letter of the Tamil alphabet?',
+      text: 'Which is the first vowel in Tamil?',
       options: [
-        { id: 'o1', text: 'அ (A)', isCorrect: true },
-        { id: 'o2', text: 'க (Ka)', isCorrect: false },
-        { id: 'o3', text: 'ச (Sa)', isCorrect: false },
+        { id: 'o1', text: `${correctVowel.character} (${correctVowel.romanization})`, isCorrect: true },
+        { id: 'o2', text: `${wrongOptions[0]?.character} (${wrongOptions[0]?.romanization})`, isCorrect: false },
+        { id: 'o3', text: `${wrongOptions[1]?.character} (${wrongOptions[1]?.romanization})`, isCorrect: false },
       ]
-    },
-    {
-      id: 'q2',
-      text: 'How many vowels are in Tamil?',
+    });
+  }
+  
+  // Question 2: Count vowels
+  questions.push({
+    id: 'q2',
+    text: 'How many vowels are in the Tamil alphabet?',
+    options: [
+      { id: 'o1', text: '10', isCorrect: false },
+      { id: 'o2', text: '12', isCorrect: true },
+      { id: 'o3', text: '18', isCorrect: false },
+    ]
+  });
+  
+  // Question 3: Identify a consonant
+  if (consonants.length > 2) {
+    const correctConsonant = consonants[0];
+    const wrongOptions = vowels.slice(0, 2);
+    questions.push({
+      id: 'q3',
+      text: `Which of these is the consonant ${correctConsonant.character}?`,
       options: [
-        { id: 'o1', text: '5', isCorrect: false },
-        { id: 'o2', text: '12', isCorrect: true },
-        { id: 'o3', text: '21', isCorrect: false },
+        { id: 'o1', text: `${correctConsonant.character} (${correctConsonant.romanization})`, isCorrect: true },
+        { id: 'o2', text: `${wrongOptions[0]?.character} (${wrongOptions[0]?.romanization})`, isCorrect: false },
+        { id: 'o3', text: `${wrongOptions[1]?.character} (${wrongOptions[1]?.romanization})`, isCorrect: false },
       ]
-    }
-  ]
+    });
+  }
+  
+  // Question 4: Count consonants
+  questions.push({
+    id: 'q4',
+    text: 'How many consonants are in the Tamil alphabet?',
+    options: [
+      { id: 'o1', text: '12', isCorrect: false },
+      { id: 'o2', text: '18', isCorrect: true },
+      { id: 'o3', text: '24', isCorrect: false },
+    ]
+  });
+  
+  // Question 5: Identify vowel by romanization
+  if (vowels.length > 3) {
+    const correctVowel = vowels[2];
+    const wrongOptions = [vowels[1], vowels[3], consonants[0]];
+    questions.push({
+      id: 'q5',
+      text: `Which Tamil letter is pronounced "${correctVowel.romanization}"?`,
+      options: [
+        { id: 'o1', text: correctVowel.character, isCorrect: true },
+        { id: 'o2', text: wrongOptions[0]?.character, isCorrect: false },
+        { id: 'o3', text: wrongOptions[1]?.character, isCorrect: false },
+      ]
+    });
+  }
+  
+  return questions;
 };
 
 export const AlphabetScreen = () => {
@@ -199,7 +248,13 @@ export const AlphabetScreen = () => {
       {/* Quiz Button */}
       <TouchableOpacity
         style={styles.quizButton}
-        onPress={() => setQuizVisible(true)}
+        onPress={() => {
+          if (vowels.length > 0 && consonants.length > 0) {
+            setQuizVisible(true);
+          } else {
+            Alert.alert('Quiz Not Available', 'Please wait for the module content to load.');
+          }
+        }}
       >
         <Text style={styles.quizButtonText}>Take Module Quiz</Text>
       </TouchableOpacity>
@@ -207,7 +262,11 @@ export const AlphabetScreen = () => {
       <QuizModal
         visible={quizVisible}
         onClose={() => setQuizVisible(false)}
-        quizData={DUMMY_QUIZ_DATA}
+        quizData={{
+          moduleId: MODULE_ID,
+          passingScore: 80,
+          questions: generateQuizQuestions(vowels, consonants)
+        }}
         moduleId={MODULE_ID}
         onComplete={(score, passed) => {
           updateModuleProgress(MODULE_ID, score, passed);
