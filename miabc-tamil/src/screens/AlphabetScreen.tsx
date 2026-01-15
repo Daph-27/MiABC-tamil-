@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, FlatList, Dimensions } from 'react-native';
-import { Audio } from 'expo-av';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, FlatList, Dimensions, Alert } from 'react-native';
 import { theme } from '../styles/theme';
 import { QuizModal } from '../components/QuizModal';
 import { useUser } from '../state/UserContext';
@@ -8,7 +7,7 @@ import axios from 'axios';
 
 const MODULE_ID = '01_alphabet';
 // Use 10.0.2.2 for Android emulator to access localhost
-const API_URL = 'http://127.0.0.1:8000/api/v1/content';
+const API_URL = 'http://10.0.2.2:8000/api/v1/content';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - 48) / 2; // 2 columns with padding
@@ -46,15 +45,9 @@ export const AlphabetScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'Vowels' | 'Consonants'>('Vowels');
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
 
   useEffect(() => {
     loadContent();
-    return () => {
-      if (sound) {
-        sound.unloadAsync();
-      }
-    };
   }, []);
 
   const loadContent = async () => {
@@ -94,19 +87,9 @@ export const AlphabetScreen = () => {
       return;
     }
 
-    try {
-      if (sound) {
-        await sound.unloadAsync();
-      }
-
-      const { sound: newSound } = await Audio.Sound.createAsync(
-        { uri: `file://${audioPath}` },
-        { shouldPlay: true }
-      );
-      setSound(newSound);
-    } catch (error) {
-      console.error('Error playing audio:', error);
-    }
+    // Audio playback will be implemented with react-native-sound later
+    console.log('Playing audio:', audioPath);
+    Alert.alert('Audio', 'Audio playback coming soon!');
   };
 
   const renderLetterCard = ({ item, index }: { item: any; index: number }) => {
