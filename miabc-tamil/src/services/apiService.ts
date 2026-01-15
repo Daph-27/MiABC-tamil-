@@ -139,6 +139,13 @@ class ApiService {
     return await this.request(API_CONFIG.ENDPOINTS.AUTH.ME);
   }
 
+  async updateUserProfile(data: Partial<RegisterData>): Promise<any> {
+    return await this.request('/auth/update-profile', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
   // Content
   async getModuleContent(moduleId: string): Promise<any> {
     return await this.request(API_CONFIG.ENDPOINTS.CONTENT.MODULE(moduleId));

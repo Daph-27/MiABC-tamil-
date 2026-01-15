@@ -2,23 +2,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ActivityIndicator } from 'react-native';
 import apiService from '../services/apiService';
+import { useUser } from '../state/UserContext';
 
 const LoginScreen = ({ navigation }) => {
+  const { setUser } = useUser();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    // Development bypass
-    if (username.toLowerCase() === 'user' && password === 'password') {
-      navigation.navigate('Home');
-      return;
-    }
-
     // Validate inputs
     if (!username || !password) {
-      Alert.alert('Error', 'Please enter both email/username and password.');
+      Alert.alert('Error', 'Please enter both username and password.');
       return;
     }
     
@@ -28,6 +24,14 @@ const LoginScreen = ({ navigation }) => {
       const response = await apiService.login({
         username: username,
         password: password,
+      });
+      
+      // Save user data to context
+      await setUser({
+        userId: response.userId,
+        username: response.username,
+        learnerName: response.learnerName,
+        accessCode: response.accessCode,
       });
       
       // Login successful
@@ -45,7 +49,7 @@ const LoginScreen = ({ navigation }) => {
       // Login failed
       const errorMessage = error.message || 'Login failed. Please check your credentials.';
       
-      if (errorMessage.includes('Incorrect email or password')) {
+      if (errorMessage.includes('Incorrect username or password')) {
         Alert.alert(
           'Login Failed',
           'You are not registered or your password is incorrect. Please register to continue.',

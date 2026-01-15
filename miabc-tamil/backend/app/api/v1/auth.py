@@ -224,6 +224,46 @@ async def get_me(current_user: User = Depends(get_current_user)):
     )
 
 
+@router.put("/update-profile")
+async def update_profile(
+    learnerName: str = None,
+    guardianName: str = None,
+    guardianEmail: str = None,
+    guardianPhone: str = None,
+    learnerGrade: str = None,
+    congratulationPhrase: str = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Update user profile information."""
+    # Update only provided fields
+    if learnerName is not None:
+        current_user.learnerName = learnerName
+    if guardianName is not None:
+        current_user.guardianName = guardianName
+    if guardianEmail is not None:
+        current_user.guardianEmail = guardianEmail
+    if guardianPhone is not None:
+        current_user.guardianPhone = guardianPhone
+    if learnerGrade is not None:
+        current_user.learnerGrade = learnerGrade
+    # Store congratulation phrase if your model supports it
+    # if congratulationPhrase is not None:
+    #     current_user.congratulationPhrase = congratulationPhrase
+    
+    db.commit()
+    db.refresh(current_user)
+    
+    return UserResponse(
+        userId=current_user.userId,
+        username=current_user.username,
+        learnerName=current_user.learnerName,
+        guardianName=current_user.guardianName,
+        accessCode=current_user.accessCode,
+        createdAt=current_user.createdAt
+    )
+
+
 @router.post("/forgot-password", response_model=MessageResponse)
 async def forgot_password(
     username: str,

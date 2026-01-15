@@ -20,7 +20,13 @@ class User(Base):
     password = Column(String(255), nullable=False)
     parentalLock = Column("parentalLock", String(10), nullable=True)
     profilePhoto = Column("profilePhoto", Text, nullable=True)
+    progress = Column(JSON, nullable=True)  # Module progress tracking
     createdAt = Column("createdAt", DateTime, nullable=True)
+    
+    @property
+    def uid(self) -> str:
+        """Firebase-compatible UID property."""
+        return str(self.userId)
 
 
 class ModuleContent(Base):
@@ -161,3 +167,16 @@ class ReadingText(Base):
     level = Column(String(20), nullable=True)
     createdAt = Column("createdAt", DateTime, nullable=True)
     updatedAt = Column("updatedAt", DateTime, nullable=True)
+
+
+class AudioFile(Base):
+    """Audio files for learning content."""
+    __tablename__ = "audio_files"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    category = Column(String(50), nullable=False, index=True)
+    filename = Column(String(255), nullable=False)
+    display_name = Column(String(255), nullable=False)
+    file_path = Column(Text, nullable=False)
+    audio_url = Column(Text, nullable=True)
+    created_at = Column(DateTime, server_default=func.now())

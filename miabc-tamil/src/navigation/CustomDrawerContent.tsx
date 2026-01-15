@@ -8,8 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-
-const user = { username: 'User', profilePic: null };
+import { useUser } from '../state/UserContext';
 
 const drawerItems = [
   { label: 'Home / முகப்பு', screen: 'Home', icon: require('../../assets/home-menu-icon.png') },
@@ -23,9 +22,11 @@ const drawerItems = [
   { label: 'Festivals / விழாக்கள்', screen: 'Festivals', icon: require('../../assets/festival-menu-icon.png') },
   { label: 'I can write / நான் எழுதுவேன்', screen: 'Write', icon: require('../../assets/writing-menu-icon.png') },
   { label: 'I can read / நான் படிப்பேன்', screen: 'Read', icon: require('../../assets/reading-menu-icon.png') },
+  { label: 'Settings / அமைப்புகள்', screen: 'Settings', icon: require('../../assets/user-icon.png') },
 ];
 
 const CustomDrawerContent = (props) => {
+  const { user } = useUser();
   const activeRouteName = props.state.routes[props.state.index].name;
 
   return (
@@ -47,7 +48,7 @@ const CustomDrawerContent = (props) => {
           <View style={styles.profileSection}>
             <View style={styles.profileContainer}>
               <Image
-                source={user.profilePic || require('../../assets/user-icon.png')}
+                source={user?.profilePicture ? { uri: user.profilePicture } : require('../../assets/user-icon.png')}
                 style={styles.profilePic}
               />
             </View>

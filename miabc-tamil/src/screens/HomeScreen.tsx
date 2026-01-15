@@ -1,44 +1,55 @@
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
-
-// Dummy user data, replace with actual user data from your state management
-const user = { username: 'User' };
+import { useUser } from '../state/UserContext';
 
 const modules = [
-  { name: 'Alphabets', screen: 'Alphabet', icon: require('../../assets/alphabet-icon.png') },
-  { name: 'Sounds', screen: 'Sounds', icon: require('../../assets/sounds-icon.png') },
-  { name: 'Words', screen: 'Words', icon: require('../../assets/words-icon.png') },
-  { name: 'Family', screen: 'Family', icon: require('../../assets/family-icon.png') },
-  { name: 'Math', screen: 'Mathematics', icon: require('../../assets/math-icon.png') },
-  { name: 'Colors', screen: 'Colors', icon: require('../../assets/colors-icon.png') },
-  { name: 'Festivals', screen: 'Festivals', icon: require('../../assets/festivals-icon.png') },
-  { name: 'I can write', screen: 'Write', icon: require('../../assets/writing-icon.png') },
-  { name: 'I can read', screen: 'Read', icon: require('../../assets/I can read-icon.png') },
-  { name: 'To complete', screen: 'Complete', icon: require('../../assets/complete-icon.png') },
+  { name: 'Alphabets', screen: 'Alphabet', moduleId: '01_alphabet', icon: require('../../assets/alphabet-icon.png') },
+  { name: 'Sounds', screen: 'Sounds', moduleId: '02_sounds', icon: require('../../assets/sounds-icon.png') },
+  { name: 'Math', screen: 'Mathematics', moduleId: '03_mathematics', icon: require('../../assets/math-icon.png') },
+  { name: 'Family', screen: 'Family', moduleId: '04_family', icon: require('../../assets/family-icon.png') },
+  { name: 'I can write', screen: 'Write', moduleId: '05_write', icon: require('../../assets/writing-icon.png') },
+  { name: 'I can read', screen: 'Read', moduleId: '06_i_know_how_to_read', icon: require('../../assets/I can read-icon.png') },
+  { name: 'To complete', screen: 'Complete', moduleId: '07_complete', icon: require('../../assets/complete-icon.png') },
+  { name: 'Words', screen: 'Words', moduleId: '08_words', icon: require('../../assets/words-icon.png') },
+  { name: 'Festivals', screen: 'Festivals', moduleId: '09_festivals', icon: require('../../assets/festivals-icon.png') },
+  { name: 'Colors', screen: 'Colors', moduleId: '10_colors', icon: require('../../assets/colors-icon.png') },
 ];
 
 const HomeScreen = ({ navigation }) => {
+  const { user, isUnlocked, progress } = useUser();
+  const displayName = user?.learnerName || user?.username || 'User';
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <Image source={require('../../assets/menu-icon.png')} style={styles.menuIcon} />
         </TouchableOpacity>
-        <Text style={styles.greeting}>Hello, {user.username}</Text>
+        <Text style={styles.greeting}>Hello, {displayName}</Text>
       </View>
 
       <View style={styles.modulesContainer}>
-        {modules.map((module, index) => (
-          <TouchableOpacity key={index} style={styles.module} onPress={() => module.screen && navigation.navigate(module.screen)}>
+        {modules.map((module, index) => {
+          const locked = !isUnlocked(module.moduleId);
+          const passed = progress[module.moduleId]?.passed || false;
+          return (
+          <TouchableOpacity 
+            key={index} 
+            style={[styles.module, locked && styles.lockedModule]} 
+            onPress={() => module.screen && !locked && navigation.navigate(module.screen)}
+            disabled={locked}
+          >
             {module.icon ? (
-              <Image source={module.icon} style={[styles.icon, module.name === 'Festivals' && styles.festivalIcon]} />
+              <Image source={module.icon} style={[styles.icon, module.name === 'Festivals' && styles.festivalIcon, locked && styles.lockedIcon]} />
             ) : (
               <View style={styles.placeholderIcon}><Text>ICON</Text></View>
             )}
-            <Text style={styles.moduleName}>{module.name}</Text>
+            <Text style={[styles.moduleName, locked && styles.lockedText]}>{module.name}</Text>
+            {locked && <Text style={styles.lockIcon}>🔒</Text>}
+            {passed && <Text style={styles.checkIcon}>✅</Text>}
           </TouchableOpacity>
-        ))}
+        );})}
       </View>
     </ScrollView>
   );

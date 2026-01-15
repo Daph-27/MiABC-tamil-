@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, ActivityIndicator } from 'react-native';
 import apiService from '../services/apiService';
+import { useUser } from '../state/UserContext';
 
 const RegistrationScreen = ({ navigation }) => {
+  const { setUser } = useUser();
   const [learnerName, setLearnerName] = useState('');
   const [username, setUsername] = useState('');
   const [age, setAge] = useState('');
@@ -41,6 +43,18 @@ const RegistrationScreen = ({ navigation }) => {
         learnerAge: parseInt(age),
         guardianEmail: email,
         guardianPhone: guardianPhone,
+      });
+      
+      // Save user data to context
+      await setUser({
+        userId: response.userId,
+        username: response.username,
+        learnerName: response.learnerName || learnerName,
+        accessCode: response.accessCode,
+        guardianName: guardianName,
+        guardianEmail: email,
+        guardianPhone: guardianPhone,
+        learnerAge: parseInt(age),
       });
       
       // Registration successful

@@ -1,4 +1,4 @@
-package com.miabctamil
+package com.miabc.tamil
 
 import android.app.Application
 import com.facebook.react.PackageList

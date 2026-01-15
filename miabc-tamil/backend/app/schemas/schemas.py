@@ -82,9 +82,22 @@ class UserProgress(BaseModel):
 
 # Content Schemas
 class ContentItem(BaseModel):
+    id: str
     type: str
-    content: Any
+    character: Optional[str] = None  # Tamil character (for alphabet module)
+    romanization: Optional[str] = None  # English romanization
+    example: Optional[str] = None  # Example word/phrase
+    audioPath: Optional[str] = None  # Path to audio file
+    audioId: Optional[int] = None  # Audio file ID reference
+    # Legacy fields for compatibility
+    tamil: Optional[str] = None
+    english: Optional[str] = None
+    sound: Optional[str] = None
     audioUrl: Optional[str] = None
+    position: Optional[int] = None
+    
+    class Config:
+        extra = "allow"  # Allow extra fields from database
 
 
 class ModuleContent(BaseModel):

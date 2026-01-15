@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Text } from 'react-native';
 
 const SplashScreen = () => {
   return (
@@ -8,7 +8,9 @@ const SplashScreen = () => {
       <Image
         source={require('../../assets/splash-screen.png')}
         style={styles.image}
+        resizeMode="contain"
       />
+      <Text style={styles.loadingText}>Loading...</Text>
     </View>
   );
 };
@@ -21,9 +23,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
+    width: '80%',
+    height: '80%',
+  },
+  loadingText: {
+    marginTop: 20,
+    fontSize: 18,
+    color: '#333',
   },
 });
 

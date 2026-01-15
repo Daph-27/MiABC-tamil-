@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
+import json
 
 from app.core.database import get_db
 from app.core.firebase import get_firebase
 from app.api.v1.auth import get_current_user
-from app.models.models import User, ModuleContent as ModuleContentModel, QuizContent as QuizContentModel
+from app.models.models import User, ModuleContent as ModuleContentModel, QuizContent as QuizContentModel, AudioFile
 from app.schemas.schemas import (
     ModuleContent, QuizContent, ProgressUpdate, UserProgress, MessageResponse
 )
@@ -16,38 +17,44 @@ router = APIRouter()
 @router.get("/modules/{module_id}", response_model=ModuleContent)
 async def get_module_content(
     module_id: str,
-    db: Session = Depends(get_db),
-    firebase = Depends(get_firebase),
-    current_user: User = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
     """
     Get module content by ID.
-    Tries Firebase first, falls back to SQLite cache.
+    Tries SQLite first for faster local access, then Firebase.
+    Public endpoint - no authentication required for educational content.
     """
-    # Try Firebase first
-    content = firebase.get_module_content(module_id)
-    
-    if content:
-        return content
-    
-    # Fall back to SQLite cache
-    cached_content = db.query(ModuleContentModel).filter(
-        ModuleContentModel.module_id == module_id
-    ).first()
-    
-    if cached_content:
-        return ModuleContent(
-            id=cached_content.module_id,
-            title=cached_content.title,
-            tabs=cached_content.tabs or [],
-            items=cached_content.items or [],
-            validated=cached_content.validated
+    try:
+        # Try SQLite cache first (faster for local development)
+        cached_content = db.query(ModuleContentModel).filter(
+            ModuleContentModel.module_id == module_id
+        ).first()
+        
+        if cached_content:
+            items = json.loads(cached_content.items) if isinstance(cached_content.items, str) else cached_content.items
+            tabs = json.loads(cached_content.tabs) if isinstance(cached_content.tabs, str) else cached_content.tabs
+            
+            return ModuleContent(
+                id=cached_content.module_id,
+                title=cached_content.title,
+                tabs=tabs or [],
+                items=items or [],
+                validated=cached_content.validated
+            )
+        
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Module {module_id} not found. Please seed the database first."
         )
-    
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Module {module_id} not found"
-    )
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error loading module: {str(e)}"
+        )
 
 
 @router.get("/quizzes/{module_id}", response_model=QuizContent)
@@ -98,20 +105,22 @@ async def get_user_progress(
     Syncs from Firebase if available.
     """
     # Try to get from Firebase
-    firebase_progress = firebase.get_user_progress(current_user.uid)
-    
-    if firebase_progress:
-        # Update local cache
-        current_user.progress = firebase_progress
-        db.commit()
-        return UserProgress(
-            uid=current_user.uid,
-            progress=firebase_progress
-        )
+    try:
+        firebase_progress = firebase.get_user_progress(str(current_user.userId))
+        if firebase_progress:
+            # Update local cache
+            current_user.progress = firebase_progress
+            db.commit()
+            return UserProgress(
+                uid=str(current_user.userId),
+                progress=firebase_progress
+            )
+    except Exception as e:
+        print(f"Warning: Failed to fetch from Firebase: {e}")
     
     # Return local cache
     return UserProgress(
-        uid=current_user.uid,
+        uid=str(current_user.userId),
         progress=current_user.progress or {}
     )
 
@@ -142,7 +151,7 @@ async def update_user_progress(
     # Update Firebase
     try:
         firebase.update_user_progress(
-            uid=current_user.uid,
+            uid=str(current_user.userId),
             module_id=progress_data.module_id,
             score=progress_data.score,
             passed=progress_data.passed
@@ -184,3 +193,56 @@ async def unlock_module(
         message=f"Module {module_id} unlocked",
         success=True
     )
+
+
+@router.get("/audio/{category}")
+async def get_audio_by_category(
+    category: str,
+    db: Session = Depends(get_db)
+):
+    """Get all audio files for a category (vowels/consonants/words)."""
+    audio_files = db.query(AudioFile).filter(
+        AudioFile.category == category
+    ).order_by(AudioFile.display_name).all()
+    
+    return [
+        {
+            "id": audio.id,
+            "category": audio.category,
+            "filename": audio.filename,
+            "displayName": audio.display_name,
+            "filePath": audio.file_path,
+            "audioUrl": audio.audio_url,
+            "createdAt": audio.created_at.isoformat() if audio.created_at else None
+        }
+        for audio in audio_files
+    ]
+
+
+@router.get("/audio/file/{display_name}")
+async def get_audio_by_name(
+    display_name: str,
+    category: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
+    """Get audio file by display name."""
+    query = db.query(AudioFile).filter(
+        AudioFile.display_name == display_name
+    )
+    
+    if category:
+        query = query.filter(AudioFile.category == category)
+    
+    audio = query.first()
+    
+    if not audio:
+        raise HTTPException(status_code=404, detail="Audio file not found")
+    
+    return {
+        "id": audio.id,
+        "category": audio.category,
+        "filename": audio.filename,
+        "displayName": audio.display_name,
+        "filePath": audio.file_path,
+        "audioUrl": audio.audio_url
+    }

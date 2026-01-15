@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "393523091244",
+    "project_id": "miabc-tamil",
+    "storage_bucket": "miabc-tamil.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393523091244:android:c65d6f6acd1156a806be89",
+        "android_client_info": {
+          "package_name": "com.miabc.tamil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQuR6s6-bWgY71ELE2rRMbZQIZUJyh_bs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -20,6 +21,7 @@ import LoginScreen from './screens/LoginScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 import ProfilePictureScreen from './screens/ProfilePictureScreen';
+import SettingsScreen from './screens/SettingsScreen';
 import CustomDrawerContent from './navigation/CustomDrawerContent';
 
 const Stack = createStackNavigator();
@@ -40,37 +42,43 @@ const App = () => {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setShowSplash(false);
     }, 4000);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <UserProvider>
-      <NavigationContainer>
-        {showSplash ? (
-          <SplashScreen />
-        ) : (
-          <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Register" component={RegistrationScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="ProfilePicture" component={ProfilePictureScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Home" component={AppDrawer} options={{ headerShown: false }} />
-            <Stack.Screen name="Alphabet" component={AlphabetScreen} />
-            <Stack.Screen name="Sounds" component={SoundsScreen} />
-            <Stack.Screen name="Mathematics" component={MathematicsScreen} />
-            <Stack.Screen name="Family" component={FamilyScreen} />
-            <Stack.Screen name="Write" component={WriteScreen} />
-            <Stack.Screen name="Read" component={ReadScreen} />
-            <Stack.Screen name="Complete" component={CompleteScreen} />
-            <Stack.Screen name="Words" component={WordsScreen} />
-            <Stack.Screen name="Festivals" component={FestivalsScreen} />
-            <Stack.Screen name="Colors" component={ColorsScreen} />
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
-    </UserProvider>
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+      <UserProvider>
+        <NavigationContainer>
+          {showSplash ? (
+            <SplashScreen />
+          ) : (
+            <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="Register" component={RegistrationScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="ProfilePicture" component={ProfilePictureScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="Home" component={AppDrawer} options={{ headerShown: false }} />
+              <Stack.Screen name="Alphabet" component={AlphabetScreen} />
+              <Stack.Screen name="Sounds" component={SoundsScreen} />
+              <Stack.Screen name="Mathematics" component={MathematicsScreen} />
+              <Stack.Screen name="Family" component={FamilyScreen} />
+              <Stack.Screen name="Write" component={WriteScreen} />
+              <Stack.Screen name="Read" component={ReadScreen} />
+              <Stack.Screen name="Complete" component={CompleteScreen} />
+              <Stack.Screen name="Words" component={WordsScreen} />
+              <Stack.Screen name="Festivals" component={FestivalsScreen} />
+              <Stack.Screen name="Colors" component={ColorsScreen} />
+              <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+            </Stack.Navigator>
+          )}
+        </NavigationContainer>
+      </UserProvider>
+    </>
   );
 };
 
