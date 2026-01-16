@@ -3,6 +3,9 @@
 // iOS simulator uses localhost
 import { Platform } from 'react-native';
 
+// OFFLINE MODE: Set to true to work without backend server
+export const OFFLINE_MODE = true;
+
 const getApiBaseUrl = () => {
   if (!__DEV__) {
     return 'https://your-production-api.com/api/v1';  // Production
@@ -20,6 +23,7 @@ const API_BASE_URL = getApiBaseUrl();
 
 export const API_CONFIG = {
   BASE_URL: API_BASE_URL,
+  OFFLINE_MODE,
   ENDPOINTS: {
     AUTH: {
       REGISTER: '/auth/register',

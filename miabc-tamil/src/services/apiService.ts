@@ -1,5 +1,7 @@
-import API_CONFIG from '../config/api';
+import API_CONFIG, { OFFLINE_MODE } from '../config/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { offlineStorage } from './offlineStorage';
+import { contentLoader } from './contentLoader';
 
 const TOKEN_KEY = '@miabc_auth_token';
 const USER_KEY = '@miabc_user_data';
@@ -35,6 +37,11 @@ class ApiService {
   private token: string | null = null;
 
   async init() {
+    // Initialize offline storage
+    if (OFFLINE_MODE) {
+      await offlineStorage.initialize();
+      console.log('📱 Running in OFFLINE MODE');
+    }
     // Load stored token
     this.token = await AsyncStorage.getItem(TOKEN_KEY);
   }
@@ -104,6 +111,34 @@ class ApiService {
 
   // Authentication
   async register(data: RegisterData): Promise<AuthResponse> {
+    // Offline mode: Use local storage
+    if (OFFLINE_MODE) {
+      console.log('📱 Offline registration');
+      const user = await offlineStorage.createUser({
+        username: data.username,
+        password: data.password,
+        learnerName: data.learnerName,
+        guardianName: data.guardianName,
+        learnerAge: data.learnerAge,
+        guardianEmail: data.guardianEmail,
+        guardianPhone: data.guardianPhone,
+      });
+
+      const response: AuthResponse = {
+        access_token: `offline_${user.id}`,
+        token_type: 'bearer',
+        userId: parseInt(user.id),
+        username: user.username,
+        accessCode: user.id,
+        learnerName: user.learnerName,
+      };
+
+      await this.setToken(response.access_token);
+      await AsyncStorage.setItem(USER_KEY, JSON.stringify(response));
+      return response;
+    }
+
+    // Online mode: Use backend API
     const response = await this.request<AuthResponse>(
       API_CONFIG.ENDPOINTS.AUTH.REGISTER,
       {
@@ -118,6 +153,26 @@ class ApiService {
   }
 
   async login(data: LoginData): Promise<AuthResponse> {
+    // Offline mode: Use local storage
+    if (OFFLINE_MODE) {
+      console.log('📱 Offline login');
+      const user = await offlineStorage.login(data.username, data.password);
+
+      const response: AuthResponse = {
+        access_token: `offline_${user.id}`,
+        token_type: 'bearer',
+        userId: parseInt(user.id),
+        username: user.username,
+        accessCode: user.id,
+        learnerName: user.learnerName,
+      };
+
+      await this.setToken(response.access_token);
+      await AsyncStorage.setItem(USER_KEY, JSON.stringify(response));
+      return response;
+    }
+
+    // Online mode: Use backend API
     const response = await this.request<AuthResponse>(
       API_CONFIG.ENDPOINTS.AUTH.LOGIN,
       {
@@ -132,6 +187,9 @@ class ApiService {
   }
 
   async logout() {
+    if (OFFLINE_MODE) {
+      await offlineStorage.logout();
+    }
     await this.clearToken();
   }
 
@@ -148,18 +206,53 @@ class ApiService {
 
   // Content
   async getModuleContent(moduleId: string): Promise<any> {
+    // Offline mode: Load from bundled JSON
+    if (OFFLINE_MODE) {
+      console.log('📱 Offline module load:', moduleId);
+      return await contentLoader.getModule(moduleId);
+    }
+    // Online mode: Use backend API
     return await this.request(API_CONFIG.ENDPOINTS.CONTENT.MODULE(moduleId));
   }
 
   async getQuizContent(moduleId: string): Promise<any> {
+    // Offline mode: Load from bundled JSON
+    if (OFFLINE_MODE) {
+      console.log('📱 Offline quiz load:', moduleId);
+      return await contentLoader.getQuiz(moduleId);
+    }
+    // Online mode: Use backend API
     return await this.request(API_CONFIG.ENDPOINTS.CONTENT.QUIZ(moduleId));
   }
 
   async getUserProgress(): Promise<any> {
+    // Offline mode: Get from local storage
+    if (OFFLINE_MODE) {
+      const userData = await AsyncStorage.getItem(USER_KEY);
+      if (userData) {
+        const user = JSON.parse(userData);
+        return await offlineStorage.getUserProgress(user.userId.toString());
+      }
+      return [];
+    }
+    // Online mode: Use backend API
     return await this.request(API_CONFIG.ENDPOINTS.CONTENT.PROGRESS);
   }
 
   async updateProgress(moduleId: string, score: number, passed: boolean): Promise<any> {
+    // Offline mode: Save to local storage
+    if (OFFLINE_MODE) {
+      console.log('📱 Offline progress update');
+      const userData = await AsyncStorage.getItem(USER_KEY);
+      if (userData) {
+        const user = JSON.parse(userData);
+        await offlineStorage.saveProgress(user.userId.toString(), moduleId, score, passed);
+        return { success: true };
+      }
+      throw new Error('User not logged in');
+    }
+
+    // Online mode: Use backend API
     return await this.request(API_CONFIG.ENDPOINTS.CONTENT.PROGRESS, {
       method: 'POST',
       body: JSON.stringify({ module_id: moduleId, score, passed }),

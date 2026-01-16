@@ -3,11 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView
 import { theme } from '../styles/theme';
 import { QuizModal } from '../components/QuizModal';
 import { useUser } from '../state/UserContext';
-import axios from 'axios';
+import apiService from '../services/apiService';
 
-const MODULE_ID = '01_alphabet';
-// Use 10.0.2.2 for Android emulator to access localhost
-const API_URL = 'http://10.0.2.2:8000/api/v1/content';
+const MODULE_ID = '01';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - 48) / 2; // 2 columns with padding
@@ -104,11 +102,12 @@ export const AlphabetScreen = () => {
       setLoading(true);
       setError(null);
       
-      // Fetch module content from backend API
-      const response = await axios.get(`${API_URL}/modules/${MODULE_ID}`);
-      const data = response.data;
+      console.log('📱 Loading alphabet module:', MODULE_ID);
       
-      console.log('Module data:', data);
+      // Fetch module content using apiService (supports offline mode)
+      const data = await apiService.getModuleContent(MODULE_ID);
+      
+      console.log('Module data loaded:', data);
       
       if (data && data.items) {
         const vowelItems = data.items.filter((item: any) => item.type === 'vowel');
@@ -117,14 +116,14 @@ export const AlphabetScreen = () => {
         setVowels(vowelItems);
         setConsonants(consonantItems);
         
-        console.log('Loaded vowels:', vowelItems.length);
-        console.log('Loaded consonants:', consonantItems.length);
+        console.log('✅ Loaded vowels:', vowelItems.length);
+        console.log('✅ Loaded consonants:', consonantItems.length);
       } else {
         setError('No content available');
       }
     } catch (error: any) {
-      console.error('Failed to load content:', error);
-      setError(error.response?.data?.detail || error.message || 'Failed to load content');
+      console.error('❌ Failed to load content:', error);
+      setError(error.message || 'Failed to load content');
     } finally {
       setLoading(false);
     }
