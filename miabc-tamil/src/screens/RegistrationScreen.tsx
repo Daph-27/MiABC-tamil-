@@ -9,7 +9,9 @@ const RegistrationScreen = ({ navigation }) => {
   const [learnerName, setLearnerName] = useState('');
   const [username, setUsername] = useState('');
   const [age, setAge] = useState('');
-  const [email, setEmail] = useState('');
+  const [learnerEmail, setLearnerEmail] = useState('');
+  const [accessCode, setAccessCode] = useState('');
+  const [guardianEmail, setGuardianEmail] = useState('');
   const [guardianName, setGuardianName] = useState('');
   const [guardianPhone, setGuardianPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -19,10 +21,31 @@ const RegistrationScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (!learnerName || !username || !age || !guardianName || !guardianPhone || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill in all fields.');
+    // Validate all required fields
+    if (!learnerName || !username || !age || !learnerEmail || !accessCode || !guardianName || !guardianPhone || !password || !confirmPassword) {
+      Alert.alert('Error', 'Please fill in all required fields.');
       return;
     }
+    
+    // Validate learner email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(learnerEmail)) {
+      Alert.alert('Error', 'Please enter a valid learner email address.');
+      return;
+    }
+    
+    // Validate access code length
+    if (accessCode.length < 6) {
+      Alert.alert('Error', 'Access code must be 6 characters.');
+      return;
+    }
+    
+    // Validate guardian email format if provided
+    if (guardianEmail && !emailRegex.test(guardianEmail)) {
+      Alert.alert('Error', 'Please enter a valid guardian email address.');
+      return;
+    }
+    
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match.');
       return;
@@ -41,8 +64,9 @@ const RegistrationScreen = ({ navigation }) => {
         learnerName: learnerName,
         guardianName: guardianName,
         learnerAge: parseInt(age),
-        guardianEmail: email,
+        guardianEmail: guardianEmail || learnerEmail,
         guardianPhone: guardianPhone,
+        accessCode: accessCode,
       });
       
       // Save user data to context
@@ -72,23 +96,38 @@ const RegistrationScreen = ({ navigation }) => {
       // Registration failed
       const errorMessage = error.message || 'Registration failed. Please try again.';
       
-      if (errorMessage.includes('already registered')) {
+      if (errorMessage.includes('Username already registered')) {
         Alert.alert(
-          'Error',
-          'This username is already taken. Please choose another one.',
+          'Username Taken',
+          'This username is already registered. Please choose another one.',
           [
             {
               text: 'Go to Login',
               onPress: () => navigation.navigate('Login'),
             },
             {
-              text: 'Cancel',
+              text: 'Try Again',
+              style: 'cancel',
+            },
+          ]
+        );
+      } else if (errorMessage.includes('Email address already registered')) {
+        Alert.alert(
+          'Email Already Registered',
+          'An account with this email address already exists. Please use a different email or login.',
+          [
+            {
+              text: 'Go to Login',
+              onPress: () => navigation.navigate('Login'),
+            },
+            {
+              text: 'Try Again',
               style: 'cancel',
             },
           ]
         );
       } else {
-        Alert.alert('Error', errorMessage);
+        Alert.alert('Registration Error', errorMessage);
       }
     } finally {
       setLoading(false);
@@ -101,24 +140,30 @@ const RegistrationScreen = ({ navigation }) => {
       
       <Text style={styles.sectionTitle}>Learner's Information</Text>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Learner Name" placeholderTextColor="#aaa" value={learnerName} onChangeText={setLearnerName} />
+        <TextInput style={styles.input} placeholder="Learner Name *" placeholderTextColor="#aaa" value={learnerName} onChangeText={setLearnerName} />
       </View>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Age" placeholderTextColor="#aaa" value={age} onChangeText={setAge} keyboardType="numeric" />
+        <TextInput style={styles.input} placeholder="Age *" placeholderTextColor="#aaa" value={age} onChangeText={setAge} keyboardType="numeric" />
       </View>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#aaa" value={username} onChangeText={setUsername} autoCapitalize="none" />
+        <TextInput style={styles.input} placeholder="Username *" placeholderTextColor="#aaa" value={username} onChangeText={setUsername} autoCapitalize="none" />
       </View>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Guardian Email (optional)" placeholderTextColor="#aaa" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
+        <TextInput style={styles.input} placeholder="Learner Email *" placeholderTextColor="#aaa" value={learnerEmail} onChangeText={setLearnerEmail} keyboardType="email-address" autoCapitalize="none" />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.input} placeholder="Access Code *" placeholderTextColor="#aaa" value={accessCode} onChangeText={setAccessCode} autoCapitalize="characters" maxLength={6} />
       </View>
 
       <Text style={styles.sectionTitle}>Guardian's Information</Text>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Guardian's Name" placeholderTextColor="#aaa" value={guardianName} onChangeText={setGuardianName} />
+        <TextInput style={styles.input} placeholder="Guardian's Name *" placeholderTextColor="#aaa" value={guardianName} onChangeText={setGuardianName} />
       </View>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Guardian's Phone Number" placeholderTextColor="#aaa" value={guardianPhone} onChangeText={setGuardianPhone} keyboardType="phone-pad" />
+        <TextInput style={styles.input} placeholder="Guardian's Email (optional)" placeholderTextColor="#aaa" value={guardianEmail} onChangeText={setGuardianEmail} keyboardType="email-address" autoCapitalize="none" />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.input} placeholder="Guardian's Phone Number *" placeholderTextColor="#aaa" value={guardianPhone} onChangeText={setGuardianPhone} keyboardType="phone-pad" />
       </View>
       
       <View style={styles.inputContainer}>

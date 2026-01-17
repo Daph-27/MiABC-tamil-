@@ -1,10 +1,716 @@
 {
   "id": "01_alphabet",
-  "title": "Alphabet",
-  "tabs": [
-    "Vowels",
-    "Consonants"
+  "title": "Foundational Alphabet - Tamil & English",
+  "description": "Master 8-10 core sounds in each language with parallel learning",
+  "level": "foundational",
+  "weeks": [
+    {
+      "weekNumber": 1,
+      "weekTitle": "Vowel Foundation (Both Languages)",
+      "days": [
+        {
+          "day": 1,
+          "focus": "Tamil அ + English A",
+          "description": "Begin with vowels that have close English equivalents"
+        },
+        {
+          "day": 2,
+          "focus": "Tamil இ + English I",
+          "description": "Front vowels with similar sounds"
+        },
+        {
+          "day": 3,
+          "focus": "Tamil உ + English U",
+          "description": "Back vowels - establishing foundation"
+        }
+      ]
+    },
+    {
+      "weekNumber": 2,
+      "focus": "English E, O + Review",
+      "description": "Complete English foundational vowels"
+    },
+    {
+      "weekNumber": 3,
+      "focus": "Consonants with Direct Parallels (M, P, T, N)",
+      "description": "Introduce 2 consonants per week in both languages"
+    },
+    {
+      "weekNumber": 4,
+      "focus": "Consonants with Direct Parallels (L, R)",
+      "description": "Continue parallel consonant instruction"
+    },
+    {
+      "weekNumber": 5,
+      "focus": "Unique Sounds (Tamil ய், English S, B)",
+      "description": "Introduce sounds unique to each language"
+    }
   ],
-  "items": [],
-  "validated": false
+  "tabs": [
+    "Tamil Vowels",
+    "English Vowels",
+    "Tamil Consonants",
+    "English Consonants",
+    "Parallel Sounds"
+  ],
+  "items": [
+    {
+      "id": "tamil_vowel_1",
+      "type": "tamil_vowel",
+      "tier": 1,
+      "character": "அ",
+      "transliteration": "a",
+      "romanization": "a",
+      "englishSound": "a in father",
+      "exampleWord": "அம்மா",
+      "exampleMeaning": "mother",
+      "examplePronunciation": "am-maa",
+      "audioPath": "/audio/tamil/vowels/a.mp3",
+      "weekIntroduced": 1,
+      "dayIntroduced": 1,
+      "parallelEnglish": "A",
+      "parallelNote": "Both are open vowels",
+      "articulation": "Open vowel - mouth wide",
+      "category": "simple_vowel",
+      "familyWords": ["அம்மா", "அப்பா"],
+      "visualAid": "color_red"
+    },
+    {
+      "id": "tamil_vowel_2",
+      "type": "tamil_vowel",
+      "tier": 1,
+      "character": "இ",
+      "transliteration": "i",
+      "romanization": "i",
+      "englishSound": "i in sit",
+      "exampleWord": "இறை",
+      "exampleMeaning": "God",
+      "examplePronunciation": "i-rai",
+      "audioPath": "/audio/tamil/vowels/i.mp3",
+      "weekIntroduced": 1,
+      "dayIntroduced": 2,
+      "parallelEnglish": "I",
+      "parallelNote": "Both are front vowels",
+      "articulation": "Front vowel - tongue forward",
+      "category": "simple_vowel",
+      "visualAid": "color_blue"
+    },
+    {
+      "id": "tamil_vowel_3",
+      "type": "tamil_vowel",
+      "tier": 1,
+      "character": "உ",
+      "transliteration": "u",
+      "romanization": "u",
+      "englishSound": "u in book",
+      "exampleWord": "உடல்",
+      "exampleMeaning": "body",
+      "examplePronunciation": "u-dal",
+      "audioPath": "/audio/tamil/vowels/u.mp3",
+      "weekIntroduced": 1,
+      "dayIntroduced": 3,
+      "parallelEnglish": "U",
+      "parallelNote": "Both are back vowels",
+      "articulation": "Back vowel - lips rounded",
+      "category": "simple_vowel",
+      "visualAid": "color_green"
+    },
+    {
+      "id": "english_vowel_1",
+      "type": "english_vowel",
+      "tier": 1,
+      "character": "A",
+      "sound": "/æ/",
+      "description": "short a",
+      "exampleWord": "cat",
+      "examplePronunciation": "/kæt/",
+      "weekIntroduced": 1,
+      "dayIntroduced": 1,
+      "parallelTamil": "அ",
+      "parallelNote": "Both are open vowels",
+      "category": "short_vowel",
+      "commonWords": ["cat", "map", "dad"]
+    },
+    {
+      "id": "english_vowel_2",
+      "type": "english_vowel",
+      "tier": 1,
+      "character": "E",
+      "sound": "/ɛ/",
+      "description": "short e",
+      "exampleWord": "bed",
+      "examplePronunciation": "/bɛd/",
+      "weekIntroduced": 2,
+      "parallelTamil": "none",
+      "parallelNote": "Mid-front vowel - unique to English",
+      "category": "short_vowel",
+      "commonWords": ["bed", "net", "pen"]
+    },
+    {
+      "id": "english_vowel_3",
+      "type": "english_vowel",
+      "tier": 1,
+      "character": "I",
+      "sound": "/ɪ/",
+      "description": "short i",
+      "exampleWord": "sit",
+      "examplePronunciation": "/sɪt/",
+      "weekIntroduced": 1,
+      "dayIntroduced": 2,
+      "parallelTamil": "இ",
+      "parallelNote": "Both are front vowels",
+      "category": "short_vowel",
+      "commonWords": ["sit", "pig", "milk"]
+    },
+    {
+      "id": "english_vowel_4",
+      "type": "english_vowel",
+      "tier": 1,
+      "character": "O",
+      "sound": "/ɑ/",
+      "description": "short o",
+      "exampleWord": "dog",
+      "examplePronunciation": "/dɑg/",
+      "weekIntroduced": 2,
+      "parallelTamil": "none",
+      "parallelNote": "Back vowel - O is distinct from Tamil sounds",
+      "category": "short_vowel",
+      "commonWords": ["dog", "hot", "mom"]
+    },
+    {
+      "id": "english_vowel_5",
+      "type": "english_vowel",
+      "tier": 1,
+      "character": "U",
+      "sound": "/ʌ/",
+      "description": "short u",
+      "exampleWord": "cup",
+      "examplePronunciation": "/kʌp/",
+      "weekIntroduced": 1,
+      "dayIntroduced": 3,
+      "parallelTamil": "உ",
+      "parallelNote": "Both are back vowels",
+      "category": "short_vowel",
+      "commonWords": ["cup", "run", "sun"]
+    },
+    {
+      "id": "tamil_consonant_1",
+      "type": "tamil_consonant",
+      "tier": 1,
+      "character": "க",
+      "transliteration": "ka",
+      "romanization": "ka",
+      "englishSound": "k in kite",
+      "placeOfArticulation": "Velar (throat)",
+      "exampleWord": "கல்",
+      "exampleMeaning": "stone",
+      "examplePronunciation": "kal",
+      "audioPath": "/audio/tamil/consonants/ka.mp3",
+      "weekIntroduced": 3,
+      "parallelEnglish": "none",
+      "category": "velar",
+      "visualAid": "color_orange",
+      "articulationGroup": 1
+    },
+    {
+      "id": "tamil_consonant_2",
+      "type": "tamil_consonant",
+      "tier": 1,
+      "character": "ப",
+      "transliteration": "pa",
+      "romanization": "pa",
+      "englishSound": "p in park",
+      "placeOfArticulation": "Labial (lips)",
+      "exampleWord": "பால்",
+      "exampleMeaning": "milk",
+      "examplePronunciation": "paal",
+      "audioPath": "/audio/tamil/consonants/pa.mp3",
+      "weekIntroduced": 3,
+      "parallelEnglish": "P",
+      "parallelNote": "Identical bilabial stop",
+      "category": "labial",
+      "visualAid": "color_purple",
+      "articulationGroup": 2
+    },
+    {
+      "id": "tamil_consonant_3",
+      "type": "tamil_consonant",
+      "tier": 1,
+      "character": "த",
+      "transliteration": "tha",
+      "romanization": "tha",
+      "englishSound": "th in think",
+      "placeOfArticulation": "Alveolar (teeth)",
+      "exampleWord": "தாய்",
+      "exampleMeaning": "mother",
+      "examplePronunciation": "thai",
+      "audioPath": "/audio/tamil/consonants/tha.mp3",
+      "weekIntroduced": 3,
+      "parallelEnglish": "T",
+      "parallelNote": "Similar alveolar stops",
+      "category": "alveolar",
+      "visualAid": "color_yellow",
+      "articulationGroup": 2
+    },
+    {
+      "id": "tamil_consonant_4",
+      "type": "tamil_consonant",
+      "tier": 1,
+      "character": "ந",
+      "transliteration": "na",
+      "romanization": "na",
+      "englishSound": "n in nose",
+      "placeOfArticulation": "Alveolar (teeth)",
+      "exampleWord": "நன்றி",
+      "exampleMeaning": "thanks",
+      "examplePronunciation": "nan-ri",
+      "audioPath": "/audio/tamil/consonants/na.mp3",
+      "weekIntroduced": 3,
+      "parallelEnglish": "N",
+      "parallelNote": "Identical alveolar nasal",
+      "category": "alveolar",
+      "visualAid": "color_teal",
+      "articulationGroup": 2
+    },
+    {
+      "id": "tamil_consonant_5",
+      "type": "tamil_consonant",
+      "tier": 1,
+      "character": "ம",
+      "transliteration": "ma",
+      "romanization": "ma",
+      "englishSound": "m in mother",
+      "placeOfArticulation": "Labial (lips)",
+      "exampleWord": "மாமா",
+      "exampleMeaning": "uncle",
+      "examplePronunciation": "maa-maa",
+      "audioPath": "/audio/tamil/consonants/ma.mp3",
+      "weekIntroduced": 3,
+      "parallelEnglish": "M",
+      "parallelNote": "Identical bilabial nasal",
+      "category": "labial",
+      "visualAid": "color_pink",
+      "articulationGroup": 2
+    },
+    {
+      "id": "tamil_consonant_6",
+      "type": "tamil_consonant",
+      "tier": 1,
+      "character": "ய",
+      "transliteration": "ya",
+      "romanization": "ya",
+      "englishSound": "y in yes",
+      "placeOfArticulation": "Approximant",
+      "exampleWord": "யாம்",
+      "exampleMeaning": "we",
+      "examplePronunciation": "yaam",
+      "audioPath": "/audio/tamil/consonants/ya.mp3",
+      "weekIntroduced": 5,
+      "parallelEnglish": "none",
+      "parallelNote": "Unique Tamil sound - no English parallel at foundational level",
+      "category": "approximant",
+      "visualAid": "color_gold",
+      "articulationGroup": 6
+    },
+    {
+      "id": "tamil_consonant_7",
+      "type": "tamil_consonant",
+      "tier": 1,
+      "character": "ர",
+      "transliteration": "ra",
+      "romanization": "ra",
+      "englishSound": "r in run (rolled)",
+      "placeOfArticulation": "Alveolar (teeth)",
+      "exampleWord": "ராணி",
+      "exampleMeaning": "queen",
+      "examplePronunciation": "raa-ni",
+      "audioPath": "/audio/tamil/consonants/ra.mp3",
+      "weekIntroduced": 4,
+      "parallelEnglish": "R",
+      "parallelNote": "Both are rhotics (different style)",
+      "category": "alveolar",
+      "visualAid": "color_red",
+      "articulationGroup": 6
+    },
+    {
+      "id": "tamil_consonant_8",
+      "type": "tamil_consonant",
+      "tier": 1,
+      "character": "ல",
+      "transliteration": "la",
+      "romanization": "la",
+      "englishSound": "l in love",
+      "placeOfArticulation": "Alveolar (teeth)",
+      "exampleWord": "லாபம்",
+      "exampleMeaning": "profit",
+      "examplePronunciation": "laa-bam",
+      "audioPath": "/audio/tamil/consonants/la.mp3",
+      "weekIntroduced": 4,
+      "parallelEnglish": "L",
+      "parallelNote": "Identical alveolar lateral",
+      "category": "alveolar",
+      "visualAid": "color_blue",
+      "articulationGroup": 6
+    },
+    {
+      "id": "english_consonant_1",
+      "type": "english_consonant",
+      "tier": 1,
+      "character": "M",
+      "sound": "/m/",
+      "description": "bilabial nasal",
+      "exampleWord": "mom",
+      "examplePronunciation": "/mɑm/",
+      "weekIntroduced": 3,
+      "parallelTamil": "ம",
+      "parallelNote": "Similar to ம (ma)",
+      "category": "nasal",
+      "commonWords": ["mom", "man", "map"]
+    },
+    {
+      "id": "english_consonant_2",
+      "type": "english_consonant",
+      "tier": 1,
+      "character": "P",
+      "sound": "/p/",
+      "description": "voiceless bilabial stop",
+      "exampleWord": "pan",
+      "examplePronunciation": "/pæn/",
+      "weekIntroduced": 3,
+      "parallelTamil": "ப",
+      "parallelNote": "Similar to ப (pa)",
+      "category": "stop",
+      "commonWords": ["pan", "pat", "pin"]
+    },
+    {
+      "id": "english_consonant_3",
+      "type": "english_consonant",
+      "tier": 1,
+      "character": "T",
+      "sound": "/t/",
+      "description": "voiceless alveolar stop",
+      "exampleWord": "tap",
+      "examplePronunciation": "/tæp/",
+      "weekIntroduced": 3,
+      "parallelTamil": "த",
+      "parallelNote": "Similar to த (tha)",
+      "category": "stop",
+      "commonWords": ["tap", "top", "tip"]
+    },
+    {
+      "id": "english_consonant_4",
+      "type": "english_consonant",
+      "tier": 1,
+      "character": "N",
+      "sound": "/n/",
+      "description": "alveolar nasal",
+      "exampleWord": "nap",
+      "examplePronunciation": "/næp/",
+      "weekIntroduced": 3,
+      "parallelTamil": "ந",
+      "parallelNote": "Similar to ந (na)",
+      "category": "nasal",
+      "commonWords": ["nap", "net", "nine"]
+    },
+    {
+      "id": "english_consonant_5",
+      "type": "english_consonant",
+      "tier": 1,
+      "character": "S",
+      "sound": "/s/",
+      "description": "voiceless alveolar fricative",
+      "exampleWord": "sit",
+      "examplePronunciation": "/sɪt/",
+      "weekIntroduced": 5,
+      "parallelTamil": "none",
+      "parallelNote": "Tamil has no fricative sounds at foundational level",
+      "category": "fricative",
+      "commonWords": ["sit", "sat", "sun"]
+    },
+    {
+      "id": "english_consonant_6",
+      "type": "english_consonant",
+      "tier": 1,
+      "character": "L",
+      "sound": "/l/",
+      "description": "alveolar lateral",
+      "exampleWord": "lap",
+      "examplePronunciation": "/læp/",
+      "weekIntroduced": 4,
+      "parallelTamil": "ல",
+      "parallelNote": "Identical to ல (la)",
+      "category": "lateral",
+      "commonWords": ["lap", "lot", "love"]
+    },
+    {
+      "id": "english_consonant_7",
+      "type": "english_consonant",
+      "tier": 1,
+      "character": "R",
+      "sound": "/r/",
+      "description": "alveolar approximant",
+      "exampleWord": "run",
+      "examplePronunciation": "/rʌn/",
+      "weekIntroduced": 4,
+      "parallelTamil": "ர",
+      "parallelNote": "Both are rhotics (different style)",
+      "category": "approximant",
+      "commonWords": ["run", "rat", "red"]
+    },
+    {
+      "id": "english_consonant_8",
+      "type": "english_consonant",
+      "tier": 1,
+      "character": "B",
+      "sound": "/b/",
+      "description": "voiced bilabial stop",
+      "exampleWord": "bat",
+      "examplePronunciation": "/bæt/",
+      "weekIntroduced": 5,
+      "parallelTamil": "none",
+      "parallelNote": "Tamil has no voiced stops in foundational set",
+      "category": "stop",
+      "commonWords": ["bat", "bed", "big"]
+    }
+  ],
+  "crossLinguisticBridges": [
+    {
+      "id": "bridge_1",
+      "tamilLetter": "அ",
+      "englishLetter": "A",
+      "sharedSound": "/æ/ - father/cat",
+      "teachingNote": "Start with these 9 parallel sounds to build confidence",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "bridge_2",
+      "tamilLetter": "இ",
+      "englishLetter": "I",
+      "sharedSound": "/ɪ/ - sit",
+      "teachingNote": "Both are front vowels",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "bridge_3",
+      "tamilLetter": "உ",
+      "englishLetter": "U",
+      "sharedSound": "/ʌ/ - cup",
+      "teachingNote": "Both are back vowels",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "bridge_4",
+      "tamilLetter": "ம",
+      "englishLetter": "M",
+      "sharedSound": "/m/",
+      "teachingNote": "Identical bilabial nasal",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "bridge_5",
+      "tamilLetter": "ப",
+      "englishLetter": "P",
+      "sharedSound": "/p/",
+      "teachingNote": "Identical bilabial stop",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "bridge_6",
+      "tamilLetter": "த",
+      "englishLetter": "T",
+      "sharedSound": "/t/",
+      "teachingNote": "Similar alveolar stops",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "bridge_7",
+      "tamilLetter": "ந",
+      "englishLetter": "N",
+      "sharedSound": "/n/",
+      "teachingNote": "Identical alveolar nasal",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "bridge_8",
+      "tamilLetter": "ல",
+      "englishLetter": "L",
+      "sharedSound": "/l/",
+      "teachingNote": "Identical alveolar lateral",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "bridge_9",
+      "tamilLetter": "ர",
+      "englishLetter": "R",
+      "sharedSound": "/r/",
+      "teachingNote": "Both are rhotics (different style)",
+      "type": "direct_parallel"
+    },
+    {
+      "id": "unique_1",
+      "englishLetter": "S",
+      "teachingNote": "Tamil has no fricative sounds at foundational level",
+      "type": "english_unique"
+    },
+    {
+      "id": "unique_2",
+      "englishLetter": "B",
+      "teachingNote": "Tamil has no voiced stops in foundational set - B is voiced, ப is unvoiced",
+      "type": "english_unique"
+    },
+    {
+      "id": "unique_3",
+      "englishLetter": "O",
+      "teachingNote": "Back vowel - O is distinct from Tamil sounds",
+      "type": "english_unique"
+    },
+    {
+      "id": "unique_4",
+      "englishLetter": "E",
+      "teachingNote": "Mid-front vowel - Tamil has a different vowel structure",
+      "type": "english_unique"
+    },
+    {
+      "id": "unique_5",
+      "tamilLetter": "ய",
+      "teachingNote": "Unique Tamil approximant sound",
+      "type": "tamil_unique"
+    },
+    {
+      "id": "unique_6",
+      "tamilLetter": "க",
+      "teachingNote": "Velar sound - no direct English parallel at foundational level",
+      "type": "tamil_unique"
+    }
+  ],
+  "familyWords": {
+    "tamil": [
+      {
+        "word": "அம்மா",
+        "transliteration": "ammā",
+        "meaning": "Mother",
+        "pronunciation": "am-maa",
+        "breakdown": "அ + ம் + ம் + ஆ",
+        "foundationalLetters": ["அ", "ம"]
+      },
+      {
+        "word": "அப்பா",
+        "transliteration": "appā",
+        "meaning": "Father",
+        "pronunciation": "ap-paa",
+        "breakdown": "அ + ப் + ப் + ஆ",
+        "foundationalLetters": ["அ", "ப"]
+      },
+      {
+        "word": "நான்",
+        "transliteration": "nāṉ",
+        "meaning": "I/me",
+        "pronunciation": "naan",
+        "breakdown": "ந் + ஆ + ன்",
+        "foundationalLetters": ["ந"]
+      },
+      {
+        "word": "நீ",
+        "transliteration": "nī",
+        "meaning": "You",
+        "pronunciation": "nee",
+        "breakdown": "ந் + ஈ",
+        "foundationalLetters": ["ந"]
+      },
+      {
+        "word": "நம்",
+        "transliteration": "nam",
+        "meaning": "We/our",
+        "pronunciation": "nam",
+        "breakdown": "ந் + அ + ம்",
+        "foundationalLetters": ["ந", "ம"]
+      }
+    ],
+    "english": [
+      {
+        "word": "mom",
+        "pronunciation": "/mɑm/",
+        "foundationalLetters": ["M", "O", "M"]
+      },
+      {
+        "word": "dad",
+        "pronunciation": "/dæd/",
+        "foundationalLetters": ["D", "A", "D"]
+      },
+      {
+        "word": "me",
+        "pronunciation": "/mi/",
+        "foundationalLetters": ["M", "E"]
+      },
+      {
+        "word": "you",
+        "pronunciation": "/ju/",
+        "foundationalLetters": ["Y", "O", "U"]
+      },
+      {
+        "word": "I",
+        "pronunciation": "/aɪ/",
+        "foundationalLetters": ["I"]
+      }
+    ]
+  },
+  "activities": [
+    {
+      "id": "activity_1",
+      "title": "Listening Discrimination",
+      "description": "Which language? Which vowel?",
+      "week": 1,
+      "type": "audio_discrimination"
+    },
+    {
+      "id": "activity_2",
+      "title": "Mouth Shape Observation",
+      "description": "Mirror activity showing tongue/lip position",
+      "week": 1,
+      "type": "visual_phonics"
+    },
+    {
+      "id": "activity_3",
+      "title": "Family Member Recording",
+      "description": "Elder says 'அம்மா' = English 'mama'",
+      "week": 2,
+      "type": "family_engagement"
+    },
+    {
+      "id": "activity_4",
+      "title": "Sound Matching Game",
+      "description": "Match Tamil ம with English M",
+      "week": 3,
+      "type": "parallel_matching"
+    },
+    {
+      "id": "activity_5",
+      "title": "Minimal Pairs Practice",
+      "description": "Two words that differ only in challenging sound",
+      "week": 3,
+      "type": "pronunciation_practice"
+    }
+  ],
+  "assessmentCheckpoints": {
+    "foundational_mastery": {
+      "tamil": {
+        "identify": "Identify 11 sounds when heard in isolation",
+        "produce": "Produce 11 sounds with reasonable approximation",
+        "match": "Match Tamil script to sound (recognize script)",
+        "apply": "Use sounds in 2-3 simple family words"
+      },
+      "english": {
+        "identify": "Identify 13 sounds when heard in isolation",
+        "produce": "Produce 13 sounds with reasonable approximation",
+        "match": "Match English letters to sounds",
+        "apply": "Use sounds in 2-3 simple CVC words"
+      },
+      "crossLinguistic": {
+        "recognize_same": "Recognize which sounds are the same (M, P, N, L, R, T)",
+        "recognize_unique": "Recognize which sounds are unique to each language (S, B, O, E in English; அ, இ, க in Tamil)",
+        "transfer": "Transfer pronunciation knowledge between languages"
+      }
+    }
+  },
+  "validated": true
 }

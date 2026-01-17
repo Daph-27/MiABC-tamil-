@@ -69,6 +69,15 @@ async def register(
             detail="Username already registered"
         )
     
+    # Check if email already exists (if provided)
+    if user_data.guardianEmail:
+        existing_email = db.query(User).filter(User.guardianEmail == user_data.guardianEmail).first()
+        if existing_email:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email address already registered"
+            )
+    
     # Generate unique access code
     access_code = generate_access_code()
     while db.query(User).filter(User.accessCode == access_code).first():

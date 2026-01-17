@@ -1,7 +1,290 @@
 {
   "moduleId": "01_alphabet",
-  "title": "Alphabet Quiz",
+  "title": "Foundational Alphabet Assessment",
+  "description": "Test your mastery of foundational sounds in Tamil and English",
   "passingScore": 80,
-  "questions": [],
-  "validated": false
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Which Tamil vowel sounds like 'a' in 'father'?",
+      "type": "multiple_choice",
+      "category": "tamil_vowel_identification",
+      "options": [
+        {
+          "id": "o1",
+          "text": "அ (a)",
+          "isCorrect": true,
+          "feedback": "Correct! அ is an open vowel sound similar to 'a' in father."
+        },
+        {
+          "id": "o2",
+          "text": "இ (i)",
+          "isCorrect": false,
+          "feedback": "இ sounds like 'i' in sit, not 'a' in father."
+        },
+        {
+          "id": "o3",
+          "text": "உ (u)",
+          "isCorrect": false,
+          "feedback": "உ sounds like 'u' in book, not 'a' in father."
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "Which Tamil consonant has the SAME sound as English M?",
+      "type": "multiple_choice",
+      "category": "cross_linguistic_parallel",
+      "options": [
+        {
+          "id": "o1",
+          "text": "ம (ma)",
+          "isCorrect": true,
+          "feedback": "Perfect! ம and M are both bilabial nasal sounds - they're identical!"
+        },
+        {
+          "id": "o2",
+          "text": "ப (pa)",
+          "isCorrect": false,
+          "feedback": "ப sounds like P, not M."
+        },
+        {
+          "id": "o3",
+          "text": "க (ka)",
+          "isCorrect": false,
+          "feedback": "க is a velar sound, different from M."
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "How many foundational Tamil sounds (vowels + consonants) should you master FIRST?",
+      "type": "multiple_choice",
+      "category": "foundational_knowledge",
+      "options": [
+        {
+          "id": "o1",
+          "text": "30 sounds (all letters)",
+          "isCorrect": false,
+          "feedback": "That's the total alphabet! Start with the foundational set first."
+        },
+        {
+          "id": "o2",
+          "text": "11 sounds (3 vowels + 8 consonants)",
+          "isCorrect": true,
+          "feedback": "Excellent! The foundational set has 3 simple vowels and 8 core consonants."
+        },
+        {
+          "id": "o3",
+          "text": "5 sounds",
+          "isCorrect": false,
+          "feedback": "Too few! The foundational set includes 11 sounds."
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "How many foundational English sounds (vowels + consonants) should you master FIRST?",
+      "type": "multiple_choice",
+      "category": "foundational_knowledge",
+      "options": [
+        {
+          "id": "o1",
+          "text": "26 letters (full alphabet)",
+          "isCorrect": false,
+          "feedback": "That's all the letters! Start with core sounds first."
+        },
+        {
+          "id": "o2",
+          "text": "13 sounds (5 vowels + 8 consonants)",
+          "isCorrect": true,
+          "feedback": "Correct! English foundational set has 5 short vowels and 8 common consonants."
+        },
+        {
+          "id": "o3",
+          "text": "10 sounds",
+          "isCorrect": false,
+          "feedback": "Close, but it's 13 foundational sounds in English."
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "Which English sound has NO Tamil equivalent at the foundational level?",
+      "type": "multiple_choice",
+      "category": "unique_sounds",
+      "options": [
+        {
+          "id": "o1",
+          "text": "M (as in mom)",
+          "isCorrect": false,
+          "feedback": "M has a parallel in Tamil: ம (ma)."
+        },
+        {
+          "id": "o2",
+          "text": "S (as in sit)",
+          "isCorrect": true,
+          "feedback": "Right! S is a fricative sound. Tamil has no fricative sounds at foundational level."
+        },
+        {
+          "id": "o3",
+          "text": "L (as in lap)",
+          "isCorrect": false,
+          "feedback": "L has a parallel in Tamil: ல (la)."
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "Which pair of letters represent PARALLEL sounds in Tamil and English?",
+      "type": "multiple_choice",
+      "category": "cross_linguistic_parallel",
+      "options": [
+        {
+          "id": "o1",
+          "text": "Tamil ப (pa) and English P",
+          "isCorrect": true,
+          "feedback": "Excellent! Both are identical bilabial stop sounds."
+        },
+        {
+          "id": "o2",
+          "text": "Tamil க (ka) and English S",
+          "isCorrect": false,
+          "feedback": "These are very different sounds with no parallel."
+        },
+        {
+          "id": "o3",
+          "text": "Tamil ய (ya) and English B",
+          "isCorrect": false,
+          "feedback": "These are unique sounds to each language at foundational level."
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "In the word 'அம்மா' (mother), which foundational sounds are used?",
+      "type": "multiple_choice",
+      "category": "word_application",
+      "options": [
+        {
+          "id": "o1",
+          "text": "அ (a) and ம (ma)",
+          "isCorrect": true,
+          "feedback": "Perfect! அம்மா uses the foundational vowel அ and consonant ம."
+        },
+        {
+          "id": "o2",
+          "text": "இ (i) and ல (la)",
+          "isCorrect": false,
+          "feedback": "These sounds are not in அம்மா (ammā)."
+        },
+        {
+          "id": "o3",
+          "text": "உ (u) and ர (ra)",
+          "isCorrect": false,
+          "feedback": "These sounds are not in அம்மா (ammā)."
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "Which articulation feature do Tamil த (tha), English T, and Tamil ந (na), English N share?",
+      "type": "multiple_choice",
+      "category": "phonetic_understanding",
+      "options": [
+        {
+          "id": "o1",
+          "text": "They are all alveolar sounds (teeth/tongue)",
+          "isCorrect": true,
+          "feedback": "Great understanding! All these sounds use the alveolar ridge (behind teeth)."
+        },
+        {
+          "id": "o2",
+          "text": "They are all labial sounds (lips)",
+          "isCorrect": false,
+          "feedback": "Labial sounds use the lips, like P/ப and M/ம."
+        },
+        {
+          "id": "o3",
+          "text": "They have no shared features",
+          "isCorrect": false,
+          "feedback": "They do share features - they're all alveolar sounds."
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "What is the teaching strategy for sounds that are PARALLEL in both languages?",
+      "type": "multiple_choice",
+      "category": "learning_strategy",
+      "options": [
+        {
+          "id": "o1",
+          "text": "Learn them separately with no comparison",
+          "isCorrect": false,
+          "feedback": "Actually, comparing parallel sounds helps learners see connections!"
+        },
+        {
+          "id": "o2",
+          "text": "Start with parallel sounds to build confidence and see connections",
+          "isCorrect": true,
+          "feedback": "Exactly! Parallel sounds (like M/ம, P/ப, T/த) build confidence through recognition."
+        },
+        {
+          "id": "o3",
+          "text": "Skip them and focus only on unique sounds",
+          "isCorrect": false,
+          "feedback": "Parallel sounds are important bridges between the languages!"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "Which vowel pair shows Tamil and English sounds that are DIFFERENT?",
+      "type": "multiple_choice",
+      "category": "unique_sounds",
+      "options": [
+        {
+          "id": "o1",
+          "text": "Tamil இ (i) and English I - both are front vowels",
+          "isCorrect": false,
+          "feedback": "These are actually parallel sounds, both front vowels!"
+        },
+        {
+          "id": "o2",
+          "text": "English E /ɛ/ - Tamil has no equivalent at foundational level",
+          "isCorrect": true,
+          "feedback": "Correct! English E (as in 'bed') is a mid-front vowel unique to English."
+        },
+        {
+          "id": "o3",
+          "text": "Tamil அ (a) and English A - both are open vowels",
+          "isCorrect": false,
+          "feedback": "These are parallel sounds, both open vowels!"
+        }
+      ]
+    }
+  ],
+  "assessmentCriteria": {
+    "foundational_mastery": {
+      "tamil": {
+        "identify": "Can identify 11 Tamil sounds when heard",
+        "produce": "Can produce sounds with reasonable approximation",
+        "match": "Can match Tamil script to sound",
+        "apply": "Can use sounds in 2-3 simple family words"
+      },
+      "english": {
+        "identify": "Can identify 13 English sounds when heard",
+        "produce": "Can produce sounds with reasonable approximation",
+        "match": "Can match English letters to sounds",
+        "apply": "Can use sounds in 2-3 simple CVC words"
+      },
+      "crossLinguistic": {
+        "recognize_same": "Recognizes parallel sounds (M, P, N, L, R, T)",
+        "recognize_unique": "Recognizes unique sounds (S, B, O, E in English; க, ய in Tamil)",
+        "transfer": "Can transfer pronunciation knowledge between languages"
+      }
+    }
+  },
+  "validated": true
 }
